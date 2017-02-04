@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/smred_soft</color>
+    <color name="colorPrimaryDark">@color/smred</color>
+    <color name="colorAccent">@color/smblack</color>
+    <color name="white">#ffffff</color>
+
+    <color name="smred">#d12020</color>
+    <color name="smred_soft">#e64646</color>
+    <color name="smblack">#000001</color>
+    <color name="smgrey">#767676</color>
+</resources>
