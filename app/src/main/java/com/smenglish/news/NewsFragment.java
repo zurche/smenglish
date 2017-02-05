@@ -2,11 +2,13 @@ package com.smenglish.news;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.smenglish.BaseTitleFragment;
 import com.smenglish.R;
@@ -29,6 +31,10 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
 
     @BindView(R.id.news_list)
     RecyclerView news_list;
+    @BindView(R.id.news_feed_progress_bar)
+    ProgressBar news_feed_progress_bar;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipe_container;
 
     @Nullable
     @Override
@@ -40,6 +46,14 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
         ButterKnife.bind(this, view);
 
         presenter = new NewsPresenter(this);
+
+        swipe_container.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.retrieveNewsFeed();
+                news_list.setVisibility(View.GONE);
+            }
+        });
 
         return view;
     }
@@ -53,10 +67,16 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
     public void onResume() {
         super.onResume();
         presenter.retrieveNewsFeed();
+        news_feed_progress_bar.setVisibility(View.VISIBLE);
+        news_list.setVisibility(View.GONE);
     }
 
     @Override
     public void onFeedRetrieved(List<News> newsList) {
+        news_list.setVisibility(View.VISIBLE);
+        news_feed_progress_bar.setVisibility(View.GONE);
+        swipe_container.setRefreshing(false);
+
         NewsFeedAdapter adapter = new NewsFeedAdapter(getActivity(), newsList);
         news_list.setLayoutManager(new LinearLayoutManager(getActivity()));
         news_list.setAdapter(adapter);

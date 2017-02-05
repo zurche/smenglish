@@ -56,6 +56,8 @@ class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewH
         if (null != tmpNews.getMessage()) {
             holder.message.setVisibility(View.VISIBLE);
             holder.message.setText(tmpNews.getMessage());
+        } else {
+            holder.message.setVisibility(View.GONE);
         }
     }
 
