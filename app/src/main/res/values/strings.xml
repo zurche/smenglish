@@ -14,6 +14,6 @@
     <string name="sm_address">351 268 3382</string>
     <string name="e_mail">E-Mail:</string>
     <string name="email_value">351 268 3382</string>
-    <string name="facebook_page">Facebook Page:</string>
+    <string name="facebook">Facebook Page</string>
     <string name="facebook_page_value">351 268 3382</string>
 </resources>

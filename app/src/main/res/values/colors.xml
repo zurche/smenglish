@@ -10,4 +10,5 @@
     <color name="smblack">#000001</color>
     <color name="smgrey">#767676</color>
     <color name="smwhite">#dddcdc</color>
+    <color name="smblue">#3c3ff1</color>
 </resources>
