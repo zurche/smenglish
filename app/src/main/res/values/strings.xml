@@ -5,4 +5,5 @@
     <string name="news">NEWS</string>
     <string name="contact">CONTACT</string>
     <string name="communications">COMMUNICATIONS</string>
+    <string name="login_to_access_the_app">Welcome,\nPlease log in</string>
 </resources>
