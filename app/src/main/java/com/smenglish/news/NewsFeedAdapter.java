@@ -62,19 +62,11 @@ class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewH
         } else {
             holder.message.setVisibility(View.GONE);
         }
-
-        setFadeAnimation(holder.itemView);
     }
 
     @Override
     public int getItemCount() {
         return mNewsFeedList.size();
-    }
-
-    private void setFadeAnimation(View view) {
-        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
-        anim.setDuration(500);
-        view.startAnimation(anim);
     }
 
     class NewsFeedViewHolder extends RecyclerView.ViewHolder {
