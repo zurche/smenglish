@@ -2,13 +2,17 @@ package com.smenglish.news;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.smenglish.BaseTitleFragment;
 import com.smenglish.R;
+import com.smenglish.news.model.News;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +27,8 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
 
     private NewsPresenter presenter;
 
-    @BindView(R.id.news_feed)
-    TextView news_feed;
+    @BindView(R.id.news_list)
+    RecyclerView news_list;
 
     @Nullable
     @Override
@@ -52,7 +56,10 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
     }
 
     @Override
-    public void onFeedRetrieved(String s) {
-        news_feed.setText(s);
+    public void onFeedRetrieved(List<News> newsList) {
+        NewsFeedAdapter adapter = new NewsFeedAdapter(getActivity(), newsList);
+        news_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        news_list.setAdapter(adapter);
+        news_list.setHasFixedSize(true);
     }
 }
