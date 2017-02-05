@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.smenglish.R;
 import com.smenglish.news.model.News;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,9 +30,9 @@ class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewH
     private final Context mContext;
     private List<News> mNewsFeedList;
 
-    NewsFeedAdapter(Context context, List<News> newsList) {
+    NewsFeedAdapter(Context context, List<News> newses) {
         mContext = context;
-        mNewsFeedList = newsList;
+        mNewsFeedList = newses;
     }
 
     @Override

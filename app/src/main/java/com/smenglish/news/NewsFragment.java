@@ -14,6 +14,7 @@ import com.smenglish.BaseTitleFragment;
 import com.smenglish.R;
 import com.smenglish.news.model.News;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -77,9 +78,9 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
         news_feed_progress_bar.setVisibility(View.GONE);
         swipe_container.setRefreshing(false);
 
-        NewsFeedAdapter adapter = new NewsFeedAdapter(getActivity(), newsList);
+        NewsFeedAdapter mNewsFeedAdapter = new NewsFeedAdapter(getActivity(), newsList);
+        news_list.setAdapter(mNewsFeedAdapter);
         news_list.setLayoutManager(new LinearLayoutManager(getActivity()));
-        news_list.setAdapter(adapter);
         news_list.setHasFixedSize(true);
     }
 }
