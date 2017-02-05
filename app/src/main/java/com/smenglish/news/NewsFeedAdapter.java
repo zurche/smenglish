@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.smenglish.R;
 import com.smenglish.news.model.News;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,11 +61,19 @@ class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewH
         } else {
             holder.message.setVisibility(View.GONE);
         }
+
+        setFadeAnimation(holder.itemView);
     }
 
     @Override
     public int getItemCount() {
         return mNewsFeedList.size();
+    }
+
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(500);
+        view.startAnimation(anim);
     }
 
     class NewsFeedViewHolder extends RecyclerView.ViewHolder {
