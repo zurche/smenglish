@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "244466764724",
+    "firebase_url": "https://smenglish-21f70.firebaseio.com",
+    "project_id": "smenglish-21f70",
+    "storage_bucket": "smenglish-21f70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244466764724:android:22c940772b869436",
+        "android_client_info": {
+          "package_name": "com.smenglish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244466764724-a66s1ebihj7csqi8er583msjlm58udnp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB57e2mN7pnXTbETeghjitd-zSNzCk3pWc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244466764724-a66s1ebihj7csqi8er583msjlm58udnp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

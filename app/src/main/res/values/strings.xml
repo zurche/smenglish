@@ -7,4 +7,13 @@
     <string name="communications">COMMUNICATIONS</string>
     <string name="login_to_access_the_app">Welcome,\nPlease log in</string>
     <string name="logging_in">Logging in&#8230;</string>
+    <string name="no_comms">No communications found</string>
+    <string name="phone_number">Phone Number:</string>
+    <string name="phone_number_value">0380 436 0870</string>
+    <string name="address">Address:</string>
+    <string name="sm_address">351 268 3382</string>
+    <string name="e_mail">E-Mail:</string>
+    <string name="email_value">351 268 3382</string>
+    <string name="facebook_page">Facebook Page:</string>
+    <string name="facebook_page_value">351 268 3382</string>
 </resources>
