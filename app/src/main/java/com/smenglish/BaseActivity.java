@@ -69,7 +69,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @param fragment to show.
      */
-    private void replaceCurrentFragmentWith(BaseFragment fragment) {
+    private void replaceCurrentFragmentWith(BaseTitleFragment fragment) {
         String currentSectionName = getString(fragment.getSectionNameResource());
 
         setTitle(currentSectionName);

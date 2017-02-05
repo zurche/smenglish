@@ -6,10 +6,10 @@ package com.smenglish.news;
 
 interface NewsContract {
     interface View {
-
+        void onFeedRetrieved(String s);
     }
 
     interface Presenter {
-
+        void retrieveNewsFeed();
     }
 }

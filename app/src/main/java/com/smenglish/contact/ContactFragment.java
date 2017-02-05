@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.smenglish.BaseFragment;
+import com.smenglish.BaseTitleFragment;
 import com.smenglish.R;
 
 import butterknife.ButterKnife;
@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by alejandro.zurcher on 2/4/2017.
  */
 
-public class ContactFragment extends BaseFragment implements ContactContract.View {
+public class ContactFragment extends BaseTitleFragment implements ContactContract.View {
 
     public static final String TAG = ContactFragment.class.getSimpleName();
 

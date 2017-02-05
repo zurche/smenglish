@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SMEnglish</string>
+    <string name="facebook_app_id">755615434587998</string>
+
     <string name="news">NEWS</string>
     <string name="contact">CONTACT</string>
     <string name="communications">COMMUNICATIONS</string>
