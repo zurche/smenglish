@@ -11,9 +11,15 @@ import java.util.List;
 interface NewsContract {
     interface View {
         void onFeedRetrieved(List<News> newsList);
+
+        void showLoginWithFacebookMessage();
+
+        void showSplashActivity();
     }
 
     interface Presenter {
         void retrieveNewsFeed();
+
+        void onBackToLoginClicked();
     }
 }

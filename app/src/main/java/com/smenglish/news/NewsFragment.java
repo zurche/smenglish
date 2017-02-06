@@ -1,5 +1,6 @@
 package com.smenglish.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,10 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.smenglish.BaseTitleFragment;
 import com.smenglish.R;
+import com.smenglish.SplashActivity;
 import com.smenglish.news.model.News;
 
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by alejandro.zurcher on 2/4/2017.
@@ -36,6 +41,10 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
     ProgressBar news_feed_progress_bar;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipe_container;
+    @BindView(R.id.facebook_logged_user_layout)
+    RelativeLayout facebook_logged_user_layout;
+    @BindView(R.id.non_facebook_logged_in_user)
+    LinearLayout non_facebook_logged_in_user;
 
     @Nullable
     @Override
@@ -82,5 +91,23 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
         news_list.setAdapter(mNewsFeedAdapter);
         news_list.setLayoutManager(new LinearLayoutManager(getActivity()));
         news_list.setHasFixedSize(true);
+    }
+
+    @Override
+    public void showLoginWithFacebookMessage() {
+        non_facebook_logged_in_user.setVisibility(View.VISIBLE);
+        facebook_logged_user_layout.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showSplashActivity() {
+        getActivity().finish();
+        Intent showSplash = new Intent(getActivity(), SplashActivity.class);
+        getActivity().startActivity(showSplash);
+    }
+
+    @OnClick(R.id.back_to_login)
+    public void backToLoginAction() {
+        presenter.onBackToLoginClicked();
     }
 }

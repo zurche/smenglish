@@ -6,6 +6,7 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.google.firebase.auth.FirebaseAuth;
 import com.smenglish.news.model.News;
 import com.smenglish.util.ConstantUtil;
 
@@ -35,28 +36,40 @@ class NewsPresenter implements NewsContract.Presenter {
      * Retrieve news feed for the SM English Group facebook page.
      */
     public void retrieveNewsFeed() {
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/" + ConstantUtil.SM_ENGLISH_PAGE_ID + "/feed",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.d(TAG, "Got Feed Response: " + response.getRawResponse());
+        if(null != AccessToken.getCurrentAccessToken()) {
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/" + ConstantUtil.SM_ENGLISH_PAGE_ID + "/feed",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            Log.d(TAG, "Got Feed Response: " + response.getRawResponse());
 
-                        JSONArray responseArray;
-                        List<News> newsList = null;
+                            JSONArray responseArray;
+                            List<News> newsList = null;
 
-                        try {
-                            responseArray = (JSONArray) response.getJSONObject().get(DATA_ROOT_ELEMENT);
-                            newsList = mNewsListTransformer.transform(responseArray);
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error parsing news response", e);
+                            try {
+                                responseArray = (JSONArray) response.getJSONObject().get(DATA_ROOT_ELEMENT);
+                                newsList = mNewsListTransformer.transform(responseArray);
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Error parsing news response", e);
+                            }
+
+                            mView.onFeedRetrieved(newsList);
                         }
-
-                        mView.onFeedRetrieved(newsList);
                     }
-                }
-        ).executeAsync();
+            ).executeAsync();
+        } else {
+            mView.showLoginWithFacebookMessage();
+        }
+
     }
+
+    @Override
+    public void onBackToLoginClicked() {
+        FirebaseAuth.getInstance().signOut();
+        mView.showSplashActivity();
+    }
+
 }
