@@ -8,12 +8,6 @@
         android:title="@string/news"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_communications"
-        android:enabled="true"
-        android:icon="@android:drawable/ic_dialog_alert"
-        android:title="@string/communications"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_contact"
         android:enabled="true"
         android:icon="@android:drawable/ic_dialog_email"

@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.smenglish.communications.CommunicationsFragment;
 import com.smenglish.contact.ContactFragment;
 import com.smenglish.news.NewsFragment;
 
@@ -51,9 +50,6 @@ public class BaseActivity extends AppCompatActivity {
                         switch (item.getItemId()) {
                             case R.id.action_news:
                                 replaceCurrentFragmentWith(new NewsFragment());
-                                break;
-                            case R.id.action_communications:
-                                replaceCurrentFragmentWith(new CommunicationsFragment());
                                 break;
                             case R.id.action_contact:
                                 replaceCurrentFragmentWith(new ContactFragment());

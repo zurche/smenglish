@@ -1,6 +1,9 @@
 package com.smenglish.news;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,15 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.smenglish.BaseTitleFragment;
 import com.smenglish.R;
 import com.smenglish.SplashActivity;
 import com.smenglish.news.model.News;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,8 +39,6 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
 
     @BindView(R.id.news_list)
     RecyclerView news_list;
-    @BindView(R.id.news_feed_progress_bar)
-    ProgressBar news_feed_progress_bar;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipe_container;
     @BindView(R.id.facebook_logged_user_layout)
@@ -60,12 +60,37 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
         swipe_container.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.retrieveNewsFeed();
-                news_list.setVisibility(View.GONE);
+                getNews();
             }
         });
 
+        swipe_container.setColorSchemeResources(
+                R.color.colorAccent,
+                R.color.colorPrimary,
+                R.color.colorPrimaryDark);
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isNetworkAvailable()) {
+            presenter.retrieveNewsFeed();
+            swipe_container.setRefreshing(true);
+            news_list.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(getActivity(), "Check your internet connection\nand try again", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void getNews() {
+        if (isNetworkAvailable()) {
+            presenter.retrieveNewsFeed();
+            news_list.setVisibility(View.GONE);
+        } else {
+            Toast.makeText(getActivity(), "Check your internet connection\nand try again", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -74,17 +99,8 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.retrieveNewsFeed();
-        news_feed_progress_bar.setVisibility(View.VISIBLE);
-        news_list.setVisibility(View.GONE);
-    }
-
-    @Override
     public void onFeedRetrieved(List<News> newsList) {
         news_list.setVisibility(View.VISIBLE);
-        news_feed_progress_bar.setVisibility(View.GONE);
         swipe_container.setRefreshing(false);
 
         NewsFeedAdapter mNewsFeedAdapter = new NewsFeedAdapter(getActivity(), newsList);
@@ -109,5 +125,12 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
     @OnClick(R.id.back_to_login)
     public void backToLoginAction() {
         presenter.onBackToLoginClicked();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

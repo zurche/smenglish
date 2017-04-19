@@ -36,7 +36,7 @@ class NewsPresenter implements NewsContract.Presenter {
      * Retrieve news feed for the SM English Group facebook page.
      */
     public void retrieveNewsFeed() {
-        if(null != AccessToken.getCurrentAccessToken()) {
+        if (null != AccessToken.getCurrentAccessToken()) {
             new GraphRequest(
                     AccessToken.getCurrentAccessToken(),
                     "/" + ConstantUtil.SM_ENGLISH_PAGE_ID + "/feed",
