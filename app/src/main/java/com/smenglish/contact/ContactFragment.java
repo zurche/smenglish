@@ -1,13 +1,9 @@
 package com.smenglish.contact;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -15,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -105,7 +100,7 @@ public class ContactFragment extends BaseTitleFragment implements ContactContrac
 
         facebook_page.setClickable(true);
         facebook_page.setMovementMethod(LinkMovementMethod.getInstance());
-        String facebookTextUrl = "<a href='"+contactInfo.getFacebook()+"'> Facebook Page </a>";
+        String facebookTextUrl = "<a href='" + contactInfo.getFacebook() + "'> Facebook Page </a>";
         facebook_page.setText(Html.fromHtml(facebookTextUrl));
     }
 
@@ -116,20 +111,20 @@ public class ContactFragment extends BaseTitleFragment implements ContactContrac
     }
 
     @OnClick(R.id.phone_number_layout)
-    public void onClickPhoneNumber(View view) {
+    public void onClickPhoneNumber() {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + mCurrentContactInfo.getPhone()));
         startActivity(intent);
     }
 
     @OnClick(R.id.address_layout)
-    public void onClickAddress(View view) {
+    public void onClickAddress() {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("https://www.google.com/maps/place/" + mCurrentContactInfo.getAddress().getGmapsurl()));
         startActivity(intent);
     }
 
     @OnClick(R.id.email_layout)
-    public void onClickEmail(View view) {
+    public void onClickEmail() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_EMAIL, mCurrentContactInfo.getEmail());

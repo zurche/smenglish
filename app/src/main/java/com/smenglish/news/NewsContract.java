@@ -12,14 +12,10 @@ interface NewsContract {
     interface View {
         void onFeedRetrieved(List<News> newsList);
 
-        void showLoginWithFacebookMessage();
-
-        void showSplashActivity();
+        void showFailedToRetrieveNewsMessage();
     }
 
     interface Presenter {
         void retrieveNewsFeed();
-
-        void onBackToLoginClicked();
     }
 }

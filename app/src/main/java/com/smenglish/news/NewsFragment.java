@@ -110,21 +110,8 @@ public class NewsFragment extends BaseTitleFragment implements NewsContract.View
     }
 
     @Override
-    public void showLoginWithFacebookMessage() {
-        non_facebook_logged_in_user.setVisibility(View.VISIBLE);
-        facebook_logged_user_layout.setVisibility(View.INVISIBLE);
-    }
+    public void showFailedToRetrieveNewsMessage() {
 
-    @Override
-    public void showSplashActivity() {
-        getActivity().finish();
-        Intent showSplash = new Intent(getActivity(), SplashActivity.class);
-        getActivity().startActivity(showSplash);
-    }
-
-    @OnClick(R.id.back_to_login)
-    public void backToLoginAction() {
-        presenter.onBackToLoginClicked();
     }
 
     private boolean isNetworkAvailable() {

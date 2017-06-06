@@ -21,6 +21,7 @@
         app:itemIconTint="@drawable/bottom_nav_selector"
         app:itemTextColor="@drawable/bottom_nav_selector"
         app:itemBackground="@color/colorPrimary"
+        android:background="@color/colorPrimary"
         app:menu="@menu/bottom_navigation_main" />
 
 

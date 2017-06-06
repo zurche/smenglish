@@ -7,16 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
+import android.webkit.URLUtil;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.lb.auto_fit_textview.AutoResizeTextView;
 import com.smenglish.R;
 import com.smenglish.news.model.News;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,9 +31,9 @@ class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewH
     private final Context mContext;
     private List<News> mNewsFeedList;
 
-    NewsFeedAdapter(Context context, List<News> newses) {
+    NewsFeedAdapter(Context context, List<News> news) {
         mContext = context;
-        mNewsFeedList = newses;
+        mNewsFeedList = news;
     }
 
     @Override
@@ -42,25 +43,39 @@ class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewH
 
     @Override
     public void onBindViewHolder(NewsFeedViewHolder holder, int position) {
-        final News tmpNews = mNewsFeedList.get(position);
+        final News currentNewsItem = mNewsFeedList.get(position);
 
-        holder.news_feed_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent openUrl = new Intent(Intent.ACTION_VIEW);
-                openUrl.setData(Uri.parse(tmpNews.getPostUrl()));
-                mContext.startActivity(openUrl);
+        if (currentNewsItem != null) {
+            holder.message.setText(currentNewsItem.getMessage());
+
+            boolean linkIsValid = currentNewsItem.getLink() != null && URLUtil.isValidUrl(currentNewsItem.getLink());
+            if (linkIsValid) {
+                holder.news_feed_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent openUrl = new Intent(Intent.ACTION_VIEW);
+                        openUrl.setData(Uri.parse(currentNewsItem.getLink()));
+                        mContext.startActivity(openUrl);
+                    }
+                });
             }
-        });
 
-        holder.story.setText(tmpNews.getStory());
-        holder.created_time.setText(tmpNews.getCreatedTime());
+            boolean imageUrlIsValid = currentNewsItem.getImage_url() != null && URLUtil.isValidUrl(currentNewsItem.getImage_url());
+            if (imageUrlIsValid) {
+                holder.image.setVisibility(View.VISIBLE);
+                Picasso.with(mContext).load(currentNewsItem.getImage_url()).into(holder.image);
+            }
 
-        if (null != tmpNews.getMessage()) {
-            holder.message.setVisibility(View.VISIBLE);
-            holder.message.setText(tmpNews.getMessage());
-        } else {
-            holder.message.setVisibility(View.GONE);
+            holder.created_time.setText(currentNewsItem.getPosted_date());
+
+            if (currentNewsItem.getSource() != null) {
+                holder.source.setText(currentNewsItem.getSource());
+                holder.source.setVisibility(View.VISIBLE);
+                holder.shared_by.setVisibility(View.VISIBLE);
+            } else {
+                holder.source.setVisibility(View.GONE);
+                holder.shared_by.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -73,12 +88,16 @@ class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.NewsFeedViewH
 
         @BindView(R.id.news_feed_layout)
         LinearLayout news_feed_layout;
-        @BindView(R.id.story_title)
-        TextView story;
         @BindView(R.id.created_time)
         TextView created_time;
+        @BindView(R.id.source)
+        TextView source;
+        @BindView(R.id.shared_by)
+        TextView shared_by;
         @BindView(R.id.message)
-        TextView message;
+        AutoResizeTextView message;
+        @BindView(R.id.image)
+        ImageView image;
 
         NewsFeedViewHolder(View itemView) {
             super(itemView);

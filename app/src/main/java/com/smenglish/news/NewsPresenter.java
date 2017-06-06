@@ -2,16 +2,13 @@ package com.smenglish.news;
 
 import android.util.Log;
 
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.smenglish.news.model.News;
-import com.smenglish.util.ConstantUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.List;
 
@@ -22,54 +19,34 @@ import java.util.List;
 class NewsPresenter implements NewsContract.Presenter {
 
     private static final String TAG = NewsPresenter.class.getSimpleName();
-    private static final String DATA_ROOT_ELEMENT = "data";
 
     private final NewsContract.View mView;
-    private final NewsListTransformer mNewsListTransformer;
+
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference newsElementsReference = database.getReference("news");
 
     NewsPresenter(NewsContract.View newsView) {
         mView = newsView;
-        mNewsListTransformer = new NewsListTransformer();
-    }
-
-    /**
-     * Retrieve news feed for the SM English Group facebook page.
-     */
-    public void retrieveNewsFeed() {
-        if (null != AccessToken.getCurrentAccessToken()) {
-            new GraphRequest(
-                    AccessToken.getCurrentAccessToken(),
-                    "/" + ConstantUtil.SM_ENGLISH_PAGE_ID + "/feed",
-                    null,
-                    HttpMethod.GET,
-                    new GraphRequest.Callback() {
-                        public void onCompleted(GraphResponse response) {
-                            Log.d(TAG, "Got Feed Response: " + response.getRawResponse());
-
-                            JSONArray responseArray;
-                            List<News> newsList = null;
-
-                            try {
-                                responseArray = (JSONArray) response.getJSONObject().get(DATA_ROOT_ELEMENT);
-                                newsList = mNewsListTransformer.transform(responseArray);
-                            } catch (JSONException e) {
-                                Log.e(TAG, "Error parsing news response", e);
-                            }
-
-                            mView.onFeedRetrieved(newsList);
-                        }
-                    }
-            ).executeAsync();
-        } else {
-            mView.showLoginWithFacebookMessage();
-        }
-
     }
 
     @Override
-    public void onBackToLoginClicked() {
-        FirebaseAuth.getInstance().signOut();
-        mView.showSplashActivity();
+    public void retrieveNewsFeed() {
+        newsElementsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "Got news");
+                GenericTypeIndicator<List<News>> genericTypeIndicatorList = new GenericTypeIndicator<List<News>>() {};
+                List<News> newsList = dataSnapshot.getValue(genericTypeIndicatorList);
+                newsList.remove(0);
+                mView.onFeedRetrieved(newsList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Cancelled news get");
+                mView.showFailedToRetrieveNewsMessage();
+            }
+        });
     }
 
 }
